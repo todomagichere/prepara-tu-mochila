@@ -1,0 +1,22 @@
+.blog { border-top: 1px solid #c5cec6; }
+.blog-heading { display: grid; grid-template-columns: 1fr 1.3fr .75fr; gap: 35px; align-items: end; }
+.blog-heading h2 { margin: 20px 0 0; font-size: clamp(46.2px, 5.5vw, 82.5px); line-height: .84; letter-spacing: -.09em; text-align: right; }
+.blog-heading h2 em { font-style: normal; color: var(--orange); }
+.blog-heading > p { margin: 0 0 8px; color: #617068; font-size: 16.5px; }
+.blog-grid { display: grid; grid-template-columns: 1.25fr .875fr .875fr; gap: 1px; margin-top: 65px; background: #1f2926; border: 1px solid #1f2926; }
+.post { min-height: 350px; display: flex; flex-direction: column; padding: 24px; color: inherit; text-decoration: none; background: #f7f9f5; transition: transform .25s ease, box-shadow .25s ease; }
+.post-featured { grid-row: span 2; min-height: 701px; padding: 30px; color: #eff4f0; background: #13201d; }
+.post:nth-child(3) { background: #e5e5d7; }
+.post:nth-child(4) { background: #d9e4dc; }
+.post-top { display: flex; justify-content: space-between; gap: 12px; color: #6c7d74; font: 500 11px var(--mono); letter-spacing: .07em; }
+.post-featured .post-top { color: #b7c7be; }
+.post-kicker { margin: auto 0 12px; color: var(--lime); font: 500 12.1px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.post h3 { margin: 44px 0 13px; max-width: 420px; font-size: 30.8px; line-height: .92; letter-spacing: -.065em; }
+.post-featured h3 { margin: 0 0 17px; font-size: clamp(39.6px, 3.74vw, 60.5px); }
+.post p:not(.post-kicker) { margin: 0; color: #68786f; font-size: 15.4px; }
+.post-featured p:not(.post-kicker) { max-width: 430px; color: #b4c3bb; font-size: 16.5px; }
+.post-source { margin-top: auto; padding-top: 25px; color: #1a2823; font: 600 12.1px var(--mono); letter-spacing: .06em; text-decoration: underline; text-underline-offset: 5px; }
+.post-source span { color: var(--orange); font-size: 16.5px; }.post-featured .post-source { color: var(--lime); }
+.post:hover { position: relative; z-index: 1; transform: translateY(-5px); box-shadow: 0 16px 32px rgba(15, 29, 24, .18); }
+.blog-source { margin: 17px 0 0; color: #728178; font: 500 11px var(--mono); letter-spacing: .045em; }.blog-source a { color: #26352f; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 850px) { .blog-heading { display: block; }.blog-heading > p { margin-top: 25px; }.blog-grid { grid-template-columns: 1fr; margin-top: 40px; }.post-featured { min-height: 510px; }.post { min-height: 300px; }.post h3 { margin-top: 45px; }.blog-source { font-size: 12.1px; line-height: 1.6; } }

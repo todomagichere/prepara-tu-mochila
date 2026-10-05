@@ -1,0 +1,42 @@
+/* Ajustes de lectura: la información secundaria conserva jerarquía sin ser diminuta. */
+nav,
+.header-cta,
+.hero-intro,
+.section-label,
+.button,
+.ghost-link,
+.field-row label,
+.card-top,
+.checkbox-row,
+.category-tabs button,
+.product-link {
+  font-size: 15.4px;
+}
+
+.hero-data span,
+.hero-data strong span,
+.scroll-cue,
+.product-meta span,
+.site-footer p,
+.site-footer div,
+.transparency > span {
+  font-size: 13.2px;
+}
+
+.hero-note,
+.planner-heading > p,
+.essential-heading > p,
+.guide-copy p,
+.transparency p {
+  font-size: 18.7px;
+}
+
+.product-card p,
+.checklist-item p {
+  font-size: 17.6px;
+}
+
+@media (max-width: 850px) {
+  .signal-strip { font-size: 13.2px; }
+  .hero-intro, .section-label, .header-cta { font-size: 14.3px; }
+}
