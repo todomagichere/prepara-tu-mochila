@@ -253,4 +253,44 @@ window.addEventListener("pagehide", () => {
   if (plannerStarted && !plannerCompleted) trackEvent("planner_abandoned");
 });
 
+const mobileTabs = document.querySelector(".essentials .category-tabs");
+const essentialsSection = document.querySelector(".essentials");
+const mobileBreakpoint = window.matchMedia("(max-width: 850px)");
+
+if (mobileTabs && essentialsSection) {
+  const tabsPlaceholder = document.createElement("div");
+  tabsPlaceholder.className = "category-tabs-placeholder";
+  mobileTabs.before(tabsPlaceholder);
+
+  let stickyFrame = null;
+  function updateMobileTabs() {
+    stickyFrame = null;
+    if (!mobileBreakpoint.matches) {
+      mobileTabs.classList.remove("is-fixed");
+      tabsPlaceholder.classList.remove("is-active");
+      tabsPlaceholder.style.height = "";
+      return;
+    }
+
+    const tabsHeight = mobileTabs.getBoundingClientRect().height;
+    const placeholderTop = tabsPlaceholder.getBoundingClientRect().top;
+    const sectionBottom = essentialsSection.getBoundingClientRect().bottom;
+    const shouldFix = placeholderTop <= 0 && sectionBottom > tabsHeight;
+
+    mobileTabs.classList.toggle("is-fixed", shouldFix);
+    tabsPlaceholder.classList.toggle("is-active", shouldFix);
+    tabsPlaceholder.style.height = shouldFix ? `${tabsHeight}px` : "";
+  }
+
+  function requestMobileTabsUpdate() {
+    if (stickyFrame) return;
+    stickyFrame = requestAnimationFrame(updateMobileTabs);
+  }
+
+  window.addEventListener("scroll", requestMobileTabsUpdate, { passive: true });
+  window.addEventListener("resize", requestMobileTabsUpdate);
+  mobileBreakpoint.addEventListener("change", requestMobileTabsUpdate);
+  requestMobileTabsUpdate();
+}
+
 renderProducts("agua");
