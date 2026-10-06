@@ -49,3 +49,9 @@
   .site-footer .affiliate-disclosure { order: 3; width: 100%; max-width: none; margin-top: 7px; padding-top: 18px; border-top: 1px solid rgba(183, 194, 189, .25); }
   .section { padding-top: 68px; padding-bottom: 68px; }.planner { padding-bottom: 66px; }.result { padding-top: 70px; padding-bottom: 66px; }.essentials { padding-top: 70px; padding-bottom: 72px; }.guide { padding-top: 45px; padding-bottom: 45px; }
 }
+
+@media (max-width: 370px) {
+  .essentials .category-tabs { gap: 2px; }
+  .category-tabs button { gap: 1px; padding-right: 1px; padding-left: 1px; font-size: 9px; }
+  .category-tabs button span { font-size: 7px; }
+}
