@@ -7,7 +7,7 @@ let plannerReturnTracked = false;
 /* Eventos de GA4: solo registran interacciones y contexto de la página,
    nunca textos introducidos, identificadores personales ni datos de salud. */
 function trackEvent(name, parameters = {}) {
-  if (typeof window.gtag !== "function") return;
+  if (!window.cookieAnalyticsGranted || typeof window.gtag !== "function") return;
   window.gtag("event", name, parameters);
 }
 

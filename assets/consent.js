@@ -6,7 +6,6 @@
   const panel = document.querySelector("#cookie-panel");
   const analyticsToggle = document.querySelector("#analytics-consent");
   let lastFocusedElement;
-  let analyticsLoaded = false;
 
   function readConsent() {
     try {
@@ -26,17 +25,30 @@
     }
   }
 
-  function loadAnalytics() {
-    if (analyticsLoaded) return;
-    analyticsLoaded = true;
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag() { window.dataLayer.push(arguments); };
-    window.gtag("js", new Date());
-    window.gtag("config", analyticsId, { anonymize_ip: true });
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsId)}`;
-    document.head.append(script);
+  function deleteAnalyticsCookies() {
+    document.cookie.split(";").forEach((cookie) => {
+      const name = cookie.trim().split("=")[0];
+      if (name === "_ga" || name.startsWith("_ga_")) {
+        document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax`;
+      }
+    });
+  }
+
+  function updateAnalyticsConsent(value) {
+    const granted = value === "accepted";
+    window.cookieAnalyticsGranted = granted;
+    if (typeof window.gtag !== "function") return;
+    window.gtag("consent", "update", {
+      analytics_storage: granted ? "granted" : "denied",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied"
+    });
+    if (granted) {
+      window.gtag("config", analyticsId, { anonymize_ip: true, send_page_view: true });
+    } else {
+      deleteAnalyticsCookies();
+    }
   }
 
   function closePanel() {
@@ -58,7 +70,7 @@
     saveConsent(value);
     banner.hidden = true;
     closePanel();
-    if (value === "accepted") loadAnalytics();
+    updateAnalyticsConsent(value);
   }
 
   document.querySelectorAll("[data-cookie-settings]").forEach((button) => button.addEventListener("click", openPanel));
@@ -78,6 +90,10 @@
     }
   });
 
-  if (readConsent() === "accepted") loadAnalytics();
-  else if (!readConsent()) banner.hidden = false;
+  const storedConsent = readConsent();
+  if (storedConsent) updateAnalyticsConsent(storedConsent);
+  else {
+    window.cookieAnalyticsGranted = false;
+    banner.hidden = false;
+  }
 })();

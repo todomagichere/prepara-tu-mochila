@@ -3,6 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google tag (gtag.js) with Consent Mode defaulting to denied -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-69HHQKVEXY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'wait_for_update': 500
+      });
+      gtag('js', new Date());
+      gtag('config', 'G-69HHQKVEXY', { 'anonymize_ip': true });
+    </script>
     <meta name="description" content="Prepara una mochila de emergencia de 72 horas con una lista práctica para agua, comida, luz, salud y evacuación. Crea un kit adaptado a tu hogar." />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta name="theme-color" content="#07090d" />
@@ -201,14 +216,14 @@
         <button class="cookie-close" type="button" aria-label="Cerrar configuración de cookies" data-cookie-close>×</button>
         <p class="cookie-kicker">CONFIGURACIÓN / PRIVACIDAD</p>
         <h2 id="cookie-panel-title">Tus preferencias de cookies.</h2>
-        <p class="cookie-panel-intro">Puedes aceptar o rechazar las cookies analíticas en cualquier momento. La navegación y el planificador funcionan aunque las rechaces.</p>
+        <p class="cookie-panel-intro">La etiqueta de Google se carga con las cookies analíticas bloqueadas por defecto. Puedes aceptarlas o rechazarlas en cualquier momento; la navegación y el planificador funcionan igual.</p>
         <div class="cookie-option"><div><h3>Cookies técnicas</h3><p>Necesarias para recordar tu decisión sobre cookies en este dispositivo.</p></div><span class="cookie-status">SIEMPRE ACTIVAS</span></div>
-        <label class="cookie-option cookie-option-choice" for="analytics-consent"><span><h3>Analítica</h3><p>Google Analytics 4 mide de forma agregada las visitas, las secciones vistas y las interacciones con el planificador. Solo se activa si lo autorizas.</p></span><input id="analytics-consent" type="checkbox" /><span class="cookie-switch" aria-hidden="true"></span></label>
+        <label class="cookie-option cookie-option-choice" for="analytics-consent"><span><h3>Analítica</h3><p>Si la autorizas, Google Analytics 4 podrá usar cookies para medir de forma agregada visitas, secciones vistas e interacciones con el planificador. Sin autorización, no se activan cookies ni eventos detallados.</p></span><input id="analytics-consent" type="checkbox" /><span class="cookie-switch" aria-hidden="true"></span></label>
         <p class="cookie-policy-note"><strong>Responsable:</strong> Roberto Pérez Villegas · <a href="mailto:lzrsoftware@gmail.com">lzrsoftware@gmail.com</a>. Al visitar enlaces de Amazon u otros sitios externos se aplicarán sus propias políticas. Puedes cambiar esta decisión desde el enlace “Cookies” del pie.</p>
         <div class="cookie-panel-actions"><button class="cookie-button cookie-button-secondary" type="button" data-cookie-reject>RECHAZAR ANALÍTICA</button><button class="cookie-button cookie-button-primary" type="button" data-cookie-save>GUARDAR PREFERENCIAS</button></div>
       </div>
     </section>
-    <script src="assets/consent.js?v=1"></script>
-    <script src="assets/app.js?v=analytics-1"></script>
+    <script src="assets/consent.js?v=consent-mode-2"></script>
+    <script src="assets/app.js?v=analytics-2"></script>
   </body>
 </html>
