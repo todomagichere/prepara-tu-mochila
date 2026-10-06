@@ -19,4 +19,4 @@
 .post-source span { color: var(--orange); font-size: 16.5px; }.post-featured .post-source { color: var(--lime); }
 .post:hover { position: relative; z-index: 1; transform: translateY(-5px); box-shadow: 0 16px 32px rgba(15, 29, 24, .18); }
 .blog-source { margin: 17px 0 0; color: #728178; font: 500 11px var(--mono); letter-spacing: .045em; }.blog-source a { color: #26352f; text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 850px) { .blog-heading { display: block; }.blog-heading > p { margin-top: 25px; }.blog-grid { grid-template-columns: 1fr; margin-top: 40px; }.post-featured { min-height: 510px; }.post { min-height: 300px; }.post h3 { margin-top: 45px; }.blog-source { font-size: 12.1px; line-height: 1.6; } }
+@media (max-width: 850px) { .blog-heading { display: block; }.blog-heading > p { margin-top: 25px; }.blog-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; background: transparent; border: 0; }.post-featured { min-height: 510px; }.post { min-height: 300px; }.post h3 { margin-top: 45px; }.blog-source { font-size: 12.1px; line-height: 1.6; } }

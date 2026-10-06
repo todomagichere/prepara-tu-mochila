@@ -114,3 +114,15 @@ Para ejecutarla sin Compose:
 ```bash
 docker run --rm -p 8072:80 prepara-tu-mochila:latest
 ```
+
+## Publicación en GitHub Pages
+
+El flujo `.github/workflows/deploy-pages.yml` despliega el portal de forma automática en GitHub Pages con cada `push` a `main`.
+
+Tras subir este archivo, entra en **Settings → Pages** del repositorio y selecciona **GitHub Actions** como fuente de publicación. El primer flujo correcto publicará el sitio en:
+
+```text
+https://todomagichere.github.io/prepara-tu-mochila/
+```
+
+Para usar un dominio propio, configúralo primero en **Settings → Pages → Custom domain** y después añade los registros DNS indicados por GitHub en tu proveedor. No uses registros DNS comodín (`*`).

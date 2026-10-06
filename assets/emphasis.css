@@ -38,6 +38,14 @@
   .signal-strip p:nth-of-type(2) { display: block; }
   .signal-strip span { font-size: 14.3px; }
   .hero-actions .button-primary { padding: 19px 21px; font-size: 16.5px; }
-  .category-tabs { gap: 8px; }.category-tabs button { padding: 16px 20px; font-size: 21px; }.category-tabs button span { font-size: 13px; }
+  .hero-actions .ghost-link { display: none; }
+  .field-row { align-items: end; }
+  .stepper { height: 62px; grid-template-columns: 48px 1fr 48px; }
+  .essentials { position: relative; }
+  .essentials .category-tabs { position: sticky; top: 0; z-index: 12; gap: 8px; margin-right: -26.4px; margin-left: -26.4px; padding: 14px 26.4px 18px; background: var(--paper); box-shadow: 0 8px 12px rgba(24, 39, 33, .08); }
+  .category-tabs button { padding: 16px 20px; font-size: 21px; }.category-tabs button span { font-size: 13px; }
+  .site-footer > .brand { order: 1; }
+  .site-footer > div { order: 2; }
+  .site-footer .affiliate-disclosure { order: 3; width: 100%; max-width: none; margin-top: 7px; padding-top: 18px; border-top: 1px solid rgba(183, 194, 189, .25); }
   .section { padding-top: 68px; padding-bottom: 68px; }.planner { padding-bottom: 66px; }.result { padding-top: 70px; padding-bottom: 66px; }.essentials { padding-top: 70px; padding-bottom: 72px; }.guide { padding-top: 45px; padding-bottom: 45px; }
 }
