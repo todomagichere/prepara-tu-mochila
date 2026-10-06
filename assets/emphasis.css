@@ -34,6 +34,7 @@
 .guide { padding-top: 56px; padding-bottom: 56px; }
 
 @media (max-width: 850px) {
+  html, body { max-width: 100%; overflow-x: clip; }
   .signal-strip { min-height: 0; padding: 22px 20px; gap: 13px; font-size: 16.5px; line-height: 1.15; }
   .signal-strip p:nth-of-type(2) { display: block; }
   .signal-strip span { font-size: 14.3px; }
@@ -42,10 +43,11 @@
   .field-row { align-items: end; }
   .stepper { height: 62px; grid-template-columns: 48px 1fr 48px; }
   .essentials { position: relative; }
-  .essentials .category-tabs { position: sticky; top: 0; z-index: 12; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin-right: -26.4px; margin-left: -26.4px; padding: 12px 26.4px 16px; overflow: visible; background: var(--paper); box-shadow: 0 8px 12px rgba(24, 39, 33, .08); }
+  .essentials .category-tabs { position: -webkit-sticky; position: sticky; top: 0; z-index: 12; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin-right: -26.4px; margin-left: -26.4px; padding: 12px 26.4px 16px; overflow: visible; background: var(--paper); box-shadow: 0 8px 12px rgba(24, 39, 33, .08); }
   .category-tabs button { justify-content: center; gap: 2px; min-width: 0; padding: 11px 2px; font-size: 10px; letter-spacing: 0; }.category-tabs button span { font-size: 8px; }
   .site-footer > .brand { order: 1; }
   .site-footer > div { order: 2; }
+  .site-footer { grid-template-columns: 1fr; }
   .site-footer .affiliate-disclosure { order: 3; width: 100%; max-width: none; margin-top: 7px; padding-top: 18px; border-top: 1px solid rgba(183, 194, 189, .25); }
   .section { padding-top: 68px; padding-bottom: 68px; }.planner { padding-bottom: 66px; }.result { padding-top: 70px; padding-bottom: 66px; }.essentials { padding-top: 70px; padding-bottom: 72px; }.guide { padding-top: 45px; padding-bottom: 45px; }
 }
