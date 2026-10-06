@@ -36,7 +36,7 @@
 @media (max-width: 850px) {
   /* Prevent decorative elements and fixed panels from widening the mobile canvas. */
   html { width: 100%; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; }
-  body { width: 100%; max-width: 100%; min-width: 0; overflow-x: hidden; }
+  body { width: 100%; max-width: 100%; min-width: 0; overflow-x: clip; }
   .signal-strip { min-height: 0; padding: 22px 20px; gap: 13px; font-size: 16.5px; line-height: 1.15; }
   .signal-strip p:nth-of-type(2) { display: block; }
   .signal-strip span { font-size: 14.3px; }
