@@ -34,7 +34,9 @@
 .guide { padding-top: 56px; padding-bottom: 56px; }
 
 @media (max-width: 850px) {
-  html, body { max-width: 100%; overflow-x: clip; }
+  /* Prevent decorative elements and fixed panels from widening the mobile canvas. */
+  html { width: 100%; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; }
+  body { width: 100%; max-width: 100%; min-width: 0; overflow-x: hidden; }
   .signal-strip { min-height: 0; padding: 22px 20px; gap: 13px; font-size: 16.5px; line-height: 1.15; }
   .signal-strip p:nth-of-type(2) { display: block; }
   .signal-strip span { font-size: 14.3px; }
@@ -44,7 +46,9 @@
   .stepper { height: 62px; grid-template-columns: 48px 1fr 48px; }
   .essentials { position: relative; }
   .essentials .category-tabs { position: -webkit-sticky; position: sticky; top: 0; z-index: 12; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin-right: -26.4px; margin-left: -26.4px; padding: 12px 26.4px 16px; overflow: visible; background: var(--paper); box-shadow: 0 8px 12px rgba(24, 39, 33, .08); }
-  .category-tabs button { justify-content: center; gap: 2px; min-width: 0; padding: 11px 2px; font-size: 10px; letter-spacing: 0; }.category-tabs button span { font-size: 8px; }
+  .category-tabs button { justify-content: center; gap: 2px; min-width: 0; padding: 11px 2px; font-size: 10px; letter-spacing: 0; }
+  .category-tabs button.active, .category-tabs button[aria-selected="true"] { background: var(--ink); color: var(--lime); }
+  .category-tabs button span { font-size: 8px; }
   .site-footer > .brand { order: 1; }
   .site-footer > div { order: 2; }
   .site-footer { grid-template-columns: 1fr; }
