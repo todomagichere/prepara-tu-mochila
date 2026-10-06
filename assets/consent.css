@@ -14,8 +14,8 @@
 .cookie-panel-content { position: relative; width: min(710px, 100%); max-height: calc(100vh - 48px); overflow-y: auto; padding: 36px; border: 1px solid #c5cec6; box-shadow: 15px 15px 0 rgba(0, 0, 0, .3); background: #edf2ec; color: #17201d; }
 .cookie-panel .cookie-kicker { color: #7f923d; }
 .cookie-panel-intro, .cookie-policy-note { color: #586860; }
-.cookie-panel .cookie-button-secondary { border-color: #52625a; color: #17201d; }
-.cookie-panel .cookie-button-secondary:hover { border-color: #17201d; color: #17201d; background: #dce6e0; }
+.cookie-panel .cookie-button-secondary { border-color: #365849; color: #1f4d3c; }
+.cookie-panel .cookie-button-secondary:hover { border-color: #1f4d3c; color: #173b2e; background: #dce6e0; }
 .cookie-close { position: absolute; top: 12px; right: 14px; border: 0; background: transparent; color: #17201d; font-size: 32px; line-height: 1; }
 .cookie-option { display: flex; justify-content: space-between; gap: 25px; align-items: center; margin-top: 22px; padding: 20px 0; border-top: 1px solid #bdc8bf; }
 .cookie-option h3 { margin: 0; font-size: 23px; letter-spacing: -.05em; }
