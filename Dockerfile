@@ -1,8 +1,8 @@
 FROM node:22-alpine AS validate
 
 WORKDIR /app
-COPY index.html ./
-COPY robots.txt sitemap.xml ./
+COPY index.html lista-mochila-emergencia-72-horas.html plan-familiar-emergencia-72-horas.html ./
+COPY robots.txt sitemap.xml llms.txt ./
 COPY assets ./assets
 
 # La validación se ejecuta dentro del build: no requiere Node en el host.
