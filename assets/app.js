@@ -1,5 +1,21 @@
 /* Identificador de seguimiento para los enlaces de producto. */
 const PORTAL_CONFIG = { amazonAffiliateTag: "lzr0ab-21" };
+let plannerStarted = false;
+let plannerCompleted = false;
+let plannerReturnTracked = false;
+
+/* Eventos de GA4: solo registran interacciones y contexto de la página,
+   nunca textos introducidos, identificadores personales ni datos de salud. */
+function trackEvent(name, parameters = {}) {
+  if (typeof window.gtag !== "function") return;
+  window.gtag("event", name, parameters);
+}
+
+function startPlannerTracking() {
+  if (plannerStarted) return;
+  plannerStarted = true;
+  trackEvent("planner_started");
+}
 
 const products = {
   agua: [
@@ -40,18 +56,25 @@ function amazonUrl(query) {
 function renderProducts(category) {
   const grid = document.querySelector("#product-grid");
   grid.innerHTML = products[category].map((product, index) => `
-    <a class="product-card product-card-link" href="${amazonUrl(product.query)}" target="_blank" rel="noopener sponsored">
+    <a class="product-card product-card-link" data-product-name="${product.title}" data-product-category="${category}" href="${amazonUrl(product.query)}" target="_blank" rel="noopener sponsored">
       <span class="product-icon">${product.icon}</span>
       <h3>${product.title}</h3>
       <p>${product.text}</p>
       <div class="product-meta"><span>Selección ${String(index + 1).padStart(2, "0")}</span><span class="product-link">VER EN AMAZON ↗</span></div>
     </a>`).join("");
+  observeProductImpressions();
 }
 
 document.querySelectorAll("[data-step]").forEach((button) => {
   button.addEventListener("click", () => {
+    startPlannerTracking();
     const input = document.getElementById(button.dataset.target);
     input.value = Math.min(Number(input.max), Math.max(Number(input.min), Number(input.value) + Number(button.dataset.step)));
+    trackEvent("planner_quantity_changed", {
+      field: button.dataset.target,
+      direction: Number(button.dataset.step) > 0 ? "increase" : "decrease",
+      value: Number(input.value)
+    });
   });
 });
 
@@ -59,10 +82,29 @@ document.querySelectorAll("[data-category]").forEach((button) => {
   button.addEventListener("click", () => {
     document.querySelectorAll("[data-category]").forEach((tab) => { tab.classList.remove("active"); tab.setAttribute("aria-selected", "false"); });
     button.classList.add("active"); button.setAttribute("aria-selected", "true"); renderProducts(button.dataset.category);
+    trackEvent("product_category_selected", { category: button.dataset.category });
   });
 });
 
-document.querySelector("#planner-form").addEventListener("submit", (event) => {
+document.querySelector("#pet").addEventListener("change", (event) => {
+  startPlannerTracking();
+  trackEvent("planner_option_changed", { option: "pet", selected: event.target.checked });
+});
+
+const plannerForm = document.querySelector("#planner-form");
+plannerForm.addEventListener("focusin", () => {
+  if (plannerCompleted && !plannerReturnTracked) {
+    plannerReturnTracked = true;
+    trackEvent("returned_to_planner");
+  }
+  startPlannerTracking();
+});
+
+plannerForm.addEventListener("invalid", (event) => {
+  trackEvent("planner_validation_error", { field: event.target.id, validity: "out_of_range" });
+}, true);
+
+plannerForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const adults = Number(document.querySelector("#adults").value);
   const children = Number(document.querySelector("#children").value);
@@ -91,7 +133,124 @@ document.querySelector("#planner-form").addEventListener("submit", (event) => {
   resultAction.innerHTML = "VER TODO EL EQUIPO <span>→</span>";
   const result = document.querySelector("#result");
   result.classList.remove("hidden");
+  plannerCompleted = true;
+  trackEvent("planner_completed", {
+    household_size: people,
+    includes_children: children > 0,
+    includes_pet: pet,
+    recommendation_count: picks.length
+  });
+  trackEvent("recommendations_shown", { recommendation_count: picks.length });
   result.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("a");
+  if (!link) return;
+
+  if (link.matches(".product-card-link, .recommendation-card")) {
+    const productName = link.dataset.productName || link.querySelector("h3")?.textContent?.trim();
+    trackEvent("affiliate_product_clicked", {
+      placement: link.matches(".recommendation-card") ? "planner_recommendation" : "product_catalog",
+      product_name: productName,
+      product_category: link.dataset.productCategory || "personalized"
+    });
+    if (link.matches(".recommendation-card")) {
+      trackEvent("recommendation_clicked", { product_name: productName });
+    }
+    return;
+  }
+
+  if (link.matches(".button, .header-cta, .ghost-link, .why-action")) {
+    trackEvent("cta_clicked", {
+      cta_label: link.textContent.trim().replace(/\s+/g, " ").slice(0, 100),
+      destination: link.hash ? link.hash.slice(1) : link.hostname
+    });
+  }
+
+  if (link.hostname && link.hostname !== window.location.hostname) {
+    trackEvent("outbound_resource_clicked", {
+      destination_domain: link.hostname,
+      source_type: link.hostname === "commission.europa.eu" ? "official_eu" : "external",
+      link_label: link.textContent.trim().replace(/\s+/g, " ").slice(0, 100)
+    });
+    return;
+  }
+
+  if (link.hash) {
+    trackEvent("section_navigation_clicked", {
+      destination: link.hash.slice(1),
+      link_label: link.textContent.trim().replace(/\s+/g, " ").slice(0, 100)
+    });
+  }
+});
+
+const viewedSections = new Set();
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting || viewedSections.has(entry.target.id)) return;
+    viewedSections.add(entry.target.id);
+    trackEvent("section_viewed", { section: entry.target.id });
+    sectionObserver.unobserve(entry.target);
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll("#plan, #result, #esenciales, #blog, #guia").forEach((section) => sectionObserver.observe(section));
+
+const seenProducts = new Set();
+const productObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    const product = entry.target;
+    const productId = `${product.dataset.productCategory}:${product.dataset.productName}`;
+    if (!seenProducts.has(productId)) {
+      seenProducts.add(productId);
+      trackEvent("product_impression", {
+        product_name: product.dataset.productName,
+        product_category: product.dataset.productCategory
+      });
+    }
+    productObserver.unobserve(product);
+  });
+}, { threshold: 0.5 });
+
+function observeProductImpressions() {
+  document.querySelectorAll(".product-card-link").forEach((product) => productObserver.observe(product));
+}
+
+const sectionEntryTimes = new Map();
+const sectionDurationObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    const section = entry.target.id;
+    if (entry.isIntersecting) {
+      sectionEntryTimes.set(section, Date.now());
+      return;
+    }
+    const enteredAt = sectionEntryTimes.get(section);
+    if (!enteredAt) return;
+    const durationSeconds = Math.round((Date.now() - enteredAt) / 1000);
+    sectionEntryTimes.delete(section);
+    if (durationSeconds >= 5) trackEvent("section_dwell_time", { section, duration_seconds: durationSeconds });
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll("#plan, #result, #esenciales, #blog, #guia").forEach((section) => sectionDurationObserver.observe(section));
+
+const scrollMilestones = [25, 50, 75, 100];
+const reachedScrollMilestones = new Set();
+function trackScrollDepth() {
+  const maxScrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const depth = maxScrollable > 0 ? ((window.scrollY / maxScrollable) * 100) : 100;
+  scrollMilestones.forEach((milestone) => {
+    if (depth < milestone || reachedScrollMilestones.has(milestone)) return;
+    reachedScrollMilestones.add(milestone);
+    trackEvent("scroll_depth", { percent: milestone });
+  });
+}
+
+window.addEventListener("scroll", trackScrollDepth, { passive: true });
+window.addEventListener("pagehide", () => {
+  if (plannerStarted && !plannerCompleted) trackEvent("planner_abandoned");
 });
 
 renderProducts("agua");
