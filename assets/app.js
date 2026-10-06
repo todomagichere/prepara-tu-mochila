@@ -267,19 +267,20 @@ if (mobileTabs && essentialsSection) {
     stickyFrame = null;
     if (!mobileBreakpoint.matches) {
       mobileTabs.classList.remove("is-fixed");
-      tabsPlaceholder.classList.remove("is-active");
+      mobileTabs.classList.remove("is-bottom");
       tabsPlaceholder.style.height = "";
       return;
     }
 
     const tabsHeight = mobileTabs.getBoundingClientRect().height;
-    const placeholderTop = tabsPlaceholder.getBoundingClientRect().top;
-    const sectionBottom = essentialsSection.getBoundingClientRect().bottom;
-    const shouldFix = placeholderTop <= 0 && sectionBottom > tabsHeight;
+    const tabsStart = tabsPlaceholder.getBoundingClientRect().top + window.scrollY;
+    const tabsEnd = essentialsSection.getBoundingClientRect().bottom + window.scrollY - tabsHeight;
+    const shouldFix = window.scrollY >= tabsStart && window.scrollY < tabsEnd;
+    const shouldPinBottom = window.scrollY >= tabsEnd;
 
     mobileTabs.classList.toggle("is-fixed", shouldFix);
-    tabsPlaceholder.classList.toggle("is-active", shouldFix);
-    tabsPlaceholder.style.height = shouldFix ? `${tabsHeight}px` : "";
+    mobileTabs.classList.toggle("is-bottom", shouldPinBottom);
+    tabsPlaceholder.style.height = shouldFix || shouldPinBottom ? `${tabsHeight}px` : "";
   }
 
   function requestMobileTabsUpdate() {

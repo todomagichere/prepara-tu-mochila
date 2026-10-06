@@ -45,10 +45,10 @@
   .field-row { align-items: end; }
   .stepper { height: 62px; grid-template-columns: 48px 1fr 48px; }
   .essentials { position: relative; }
-  .essentials .category-tabs { position: static; z-index: 12; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin-right: -26.4px; margin-left: -26.4px; padding: 12px 26.4px 16px; overflow: visible; background: var(--paper); box-shadow: 0 8px 12px rgba(24, 39, 33, .08); }
-  .category-tabs-placeholder { display: none; }
-  .category-tabs-placeholder.is-active { display: block; }
+  .essentials .category-tabs { position: static; z-index: 12; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin: 0 -26.4px; padding: 12px 26.4px 16px; overflow: visible; background: var(--paper); box-shadow: 0 8px 12px rgba(24, 39, 33, .08); }
+  .category-tabs-placeholder { display: block; height: 0; margin-top: 62px; }
   .essentials .category-tabs.is-fixed { position: fixed; top: 0; right: 0; left: 0; width: 100%; margin: 0; }
+  .essentials .category-tabs.is-bottom { position: absolute; right: 0; bottom: 0; left: 0; width: 100%; margin: 0; }
   .category-tabs button { justify-content: center; gap: 2px; min-width: 0; padding: 11px 2px; font-size: 10px; letter-spacing: 0; }
   .category-tabs button.active, .category-tabs button[aria-selected="true"] { background: var(--ink); color: var(--lime); }
   .category-tabs button span { font-size: 8px; }
