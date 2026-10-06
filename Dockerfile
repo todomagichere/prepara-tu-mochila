@@ -2,10 +2,11 @@ FROM node:22-alpine AS validate
 
 WORKDIR /app
 COPY index.html ./
+COPY robots.txt sitemap.xml ./
 COPY assets ./assets
 
 # La validación se ejecuta dentro del build: no requiere Node en el host.
-RUN node --check assets/app.js
+RUN node --check assets/app.js && node --check assets/consent.js
 
 FROM nginx:1.27-alpine
 
